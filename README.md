@@ -116,7 +116,7 @@ Outputs are written to:
 - Observation space: 18-dimensional normalized state
 - Numerical scheme: Local Lax-Friedrichs + forward Euler + CFL 0.5
 - Scenarios: `light`, `moderate`, `heavy`, `saturated`
-
+<!-- 
 ## Cite this work
 
 If you use this code, please cite the associated paper (add DOI/link once public):
@@ -128,7 +128,7 @@ If you use this code, please cite the associated paper (add DOI/link once public
   journal = {Journal of Intelligent Transportation Systems},
   year    = {2026}
 }
-```
+``` -->
 
 ## Contact
 
