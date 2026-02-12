@@ -1,0 +1,53 @@
+{
+  "scenarios": {
+    "light": {
+      "baseline_reward": -17.562586821504787,
+      "baseline_reward_std": 0.0,
+      "dqn_reward": -17.93494667024423,
+      "dqn_reward_std": 0.0,
+      "improvement_pct": -2.120187945681787,
+      "baseline_density": 0.04936293410752394,
+      "dqn_density": 0.07573723335122114,
+      "baseline_throughput": 746.7563658532208,
+      "dqn_throughput": 1472.2775480524815
+    },
+    "moderate": {
+      "baseline_reward": -18.866018255124025,
+      "baseline_reward_std": 0.0,
+      "dqn_reward": -15.644457570414975,
+      "dqn_reward_std": 1.7763568394002505e-15,
+      "improvement_pct": 17.075996859242263,
+      "baseline_density": 0.06429259127562013,
+      "dqn_density": 0.07507228785207486,
+      "baseline_throughput": 1170.8386641569987,
+      "dqn_throughput": 1499.453121005392
+    },
+    "heavy": {
+      "baseline_reward": -18.901898723821574,
+      "baseline_reward_std": 3.552713678800501e-15,
+      "dqn_reward": -14.032415403507175,
+      "dqn_reward_std": 1.7763568394002505e-15,
+      "improvement_pct": 25.76187393374146,
+      "baseline_density": 0.0761344936191079,
+      "dqn_density": 0.06828707701753586,
+      "baseline_throughput": 1382.4588972467939,
+      "dqn_throughput": 1383.8859675093947
+    },
+    "saturated": {
+      "baseline_reward": -22.127860965170438,
+      "baseline_reward_std": 3.552713678800501e-15,
+      "dqn_reward": -15.175782900021591,
+      "dqn_reward_std": 1.7763568394002505e-15,
+      "improvement_pct": 31.41775915933092,
+      "baseline_density": 0.09747680482585222,
+      "dqn_density": 0.07426641450010797,
+      "baseline_throughput": 1382.0219539545992,
+      "dqn_throughput": 1451.2589142931006
+    }
+  },
+  "overall": {
+    "baseline_mean": -19.36459119140521,
+    "dqn_mean": -15.696900636046992,
+    "improvement_pct": 18.94019098624756
+  }
+}
