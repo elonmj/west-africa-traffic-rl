@@ -1,41 +1,53 @@
 # Multi-Class ARZ + RL Traffic Signal Control (West Africa)
 
-A reproducible Python implementation of a **multi-class macroscopic traffic model** (motorcycles + cars) coupled with **Deep Reinforcement Learning (DQN)** for adaptive signal control on a signalized urban corridor.
+A reproducible Python implementation of a **multi-class macroscopic traffic model** (motorcycles + cars) coupled with **Deep Reinforcement Learning (DQN)** for adaptive signal control on a real 2×2 grid network extracted from OpenStreetMap.
 
-This repository is the codebase associated with the JITS paper:
+This repository is the codebase associated with the paper:
 
-> **A Multi-Class Macroscopic Traffic Model with Reinforcement Learning Signal Control for Heterogeneous Urban Corridors in West Africa**
+> **A Multi-Class Macroscopic Traffic Model with Reinforcement Learning Signal Control for Heterogeneous Urban Networks in West Africa**
+>
+> Submitted to the *International Journal of Intelligent Transportation Systems Research* (Springer Nature).
 
 ## Why this project matters
 
 Most RL traffic-signal papers assume data-rich environments (detectors, calibrated microsimulators, expensive tooling). This implementation demonstrates a practical pathway for **data-scarce cities**:
 
 - model heterogeneous traffic (motos + cars) with a multi-class ARZ formulation,
+- extract real urban topology from OpenStreetMap (Quartier Ganhi, Cotonou, Benin),
 - train an adaptive controller on a standard CPU,
 - evaluate across multiple demand regimes,
 - generate publication-ready figures from the same pipeline.
 
-## Key results (current run)
+## Key results
 
-- Training budget: **60,000 steps** (~2,000 episodes)
-- Hardware: **standard CPU**
-- Training time: **~38 minutes**
-- Overall reward improvement vs fixed timing: **+18.9%**
-- Scenario breakdown:
-  - Light: **-2.1%**
-  - Moderate: **+17.1%**
-  - Heavy: **+25.8%**
-  - Saturated: **+31.4%**
+**Network case study** (2×2 grid, Quartier Ganhi, Cotonou):
+
+| Scenario   | Improvement vs fixed timing |
+|------------|----------------------------|
+| Light      | **+83.8%**                 |
+| Moderate   | **+55.7%**                 |
+| Heavy      | **+34.8%**                 |
+| Saturated  | **+29.0%**                 |
+| **Overall**| **+45.7%**                 |
+
+- Training budget: **60,000 steps** (~53 min on a standard CPU)
+- Hardware: standard CPU (no GPU required)
 
 ## Repository structure
 
 ```text
-python/
 ├─ params.py                  # Physical parameters, scenarios, DQN config
 ├─ solver.py                  # Multi-class ARZ finite-volume solver (LxF)
-├─ environment.py             # Gymnasium environment + fixed-time baseline
-├─ train.py                   # Two-phase training/evaluation pipeline
-├─ generate_all_figures.py    # Generates paper/thesis figures
+├─ environment.py             # Single-link Gymnasium environment + baseline
+├─ train.py                   # Single-link training pipeline
+├─ network_params.py          # 2×2 grid network parameters (OSM-extracted)
+├─ network_solver.py          # Network-level multi-link solver
+├─ network_env.py             # Network Gymnasium environment + baseline
+├─ network_train.py           # Network training/evaluation pipeline (paper)
+├─ validate_riemann.py        # Riemann solver convergence validation
+├─ fetch_real_topology.py     # OSM topology extraction script
+├─ generate_all_figures.py    # Single-link figure generation
+├─ generate_network_figures.py# Network figure generation (paper figures)
 └─ data/results/              # Saved metrics, eval outputs, model artifacts
 ```
 
@@ -44,8 +56,8 @@ python/
 ### 1) Clone and enter folder
 
 ```bash
-git clone https://github.com/<your-username>/<your-repo-name>.git
-cd <your-repo-name>
+git clone https://github.com/elonmj/west-africa-traffic-rl.git
+cd west-africa-traffic-rl
 ```
 
 ### 2) Create virtual environment
@@ -75,47 +87,48 @@ pip install -r requirements.txt
 
 ## Usage
 
-### Full pipeline (recommended)
+### Full pipeline — Network (paper results)
 
 ```bash
-python train.py
+python network_train.py
 ```
 
 Runs:
 1. environment sanity check,
-2. proof phase (10k),
-3. full training phase (60k),
-4. multi-scenario evaluation,
+2. proof phase (10k steps),
+3. full training phase (60k steps),
+4. multi-scenario evaluation on the 2×2 grid,
 5. metrics export in `data/results/`.
 
 ### Optional modes
 
 ```bash
-python train.py --proof-only
-python train.py --full-only
+python network_train.py --proof-only
+python network_train.py --full-only
 ```
 
-### Generate all figures
+### Single-link pipeline (development baseline)
 
 ```bash
-python generate_all_figures.py
+python train.py
 ```
 
-Outputs are written to:
+### Generate figures
 
-- `../images/chapter3/fig_corridor_schematic.png`
-- `../images/chapter3/fig_fundamental_diagram.png`
-- `../images/chapter3/fig_scenario_profiles.png`
-- `../images/chapter3/fig_training_curve.png`
-- `../images/chapter3/fig_rl_comparison.png`
+```bash
+python generate_network_figures.py   # Paper figures (network)
+python generate_all_figures.py       # Single-link figures
+```
 
 ## Reproducibility notes
 
-- Main corridor: 1.5 km, 3 signalized intersections
-- Action space: `Discrete(8)` (joint phases for 3 signals)
-- Observation space: 18-dimensional normalized state
-- Numerical scheme: Local Lax-Friedrichs + forward Euler + CFL 0.5
-- Scenarios: `light`, `moderate`, `heavy`, `saturated`
+- **Network topology:** 2×2 grid extracted from OpenStreetMap (Quartier Ganhi, Cotonou, Benin)
+- **Road segments:** Avenue du Capitaine Adjovi, Avenue Augustin Nikouè, Rue Général Félix Éboué, Rue José Firmin Santos
+- **Total network length:** 1,159 m
+- **Action space (network):** `Discrete(16)` — 4 binary signal phases (one per junction)
+- **Observation space (network):** 24-dimensional normalized state
+- **Numerical scheme:** Local Lax-Friedrichs + forward Euler + CFL 0.5
+- **Scenarios:** `light`, `moderate`, `heavy`, `saturated`
 <!-- 
 ## Cite this work
 
@@ -123,9 +136,9 @@ If you use this code, please cite the associated paper (add DOI/link once public
 
 ```bibtex
 @article{hontinfinde_ahouanye_2026,
-  title   = {A Multi-Class Macroscopic Traffic Model with Reinforcement Learning Signal Control for Heterogeneous Urban Corridors in West Africa},
+  title   = {A Multi-Class Macroscopic Traffic Model with Reinforcement Learning Signal Control for Heterogeneous Urban Networks in West Africa},
   author  = {Hontinfinde, Régis Donald and Ahouanye, Elonm Josaphat},
-  journal = {Journal of Intelligent Transportation Systems},
+  journal = {International Journal of Intelligent Transportation Systems Research},
   year    = {2026}
 }
 ``` -->

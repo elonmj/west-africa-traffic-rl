@@ -1,0 +1,45 @@
+{
+  "scenarios": {
+    "light": {
+      "baseline_reward": -13.573067016646167,
+      "baseline_reward_std": 1.7763568394002505e-15,
+      "dqn_reward": -2.19369721383139,
+      "dqn_reward_std": 0.0,
+      "improvement_pct": 83.8378664811644,
+      "baseline_density": 0.06340078430198083,
+      "dqn_density": 0.007924508204573617
+    },
+    "moderate": {
+      "baseline_reward": -19.374506649721347,
+      "baseline_reward_std": 0.0,
+      "dqn_reward": -8.587146415128771,
+      "dqn_reward_std": 1.7763568394002505e-15,
+      "improvement_pct": 55.67811573022803,
+      "baseline_density": 0.08690602934235674,
+      "dqn_density": 0.040003798481893844
+    },
+    "heavy": {
+      "baseline_reward": -23.2612831968658,
+      "baseline_reward_std": 0.0,
+      "dqn_reward": -15.162846094069934,
+      "dqn_reward_std": 3.552713678800501e-15,
+      "improvement_pct": 34.81509181697698,
+      "baseline_density": 0.10280622067182894,
+      "dqn_density": 0.05286790885576635
+    },
+    "saturated": {
+      "baseline_reward": -27.4935621860734,
+      "baseline_reward_std": 3.552713678800501e-15,
+      "dqn_reward": -19.53242112846547,
+      "dqn_reward_std": 0.0,
+      "improvement_pct": 28.956382602326343,
+      "baseline_density": 0.12052503749286704,
+      "dqn_density": 0.05714433220482735
+    }
+  },
+  "overall": {
+    "baseline_mean": -20.925604762326678,
+    "dqn_mean": -11.369027712873892,
+    "improvement_pct": 45.669299205430505
+  }
+}

@@ -42,6 +42,15 @@ htmlcov/
 # Training artifacts (large / regenerable)
 data/results/best_model/
 data/results/eval_logs/
+data/results/net_best_model/
+data/results/net_eval_logs/
+
+# API cache
+cache/
+
+# Utility scripts (not part of pipeline)
+count_words.py
+_explore_roads.py
 
 # Optional temporary outputs
 *.tmp
